@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: alidns-webhook
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 
@@ -12,7 +12,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: alidns-webhook
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 rules:
@@ -28,7 +28,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: alidns-webhook
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 roleRef:
@@ -39,7 +39,7 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: alidns-webhook
-    namespace: cert-manager
+    namespace: ix-traefik
 
 ---
 # Grant the webhook permission to read the ConfigMap containing the Kubernetes
@@ -60,7 +60,7 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: alidns-webhook
-    namespace: cert-manager
+    namespace: ix-traefik
 ---
 # apiserver gets the auth-delegator role to delegate auth decisions to
 # the core apiserver
@@ -68,7 +68,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: alidns-webhook:auth-delegator
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 roleRef:
@@ -79,7 +79,7 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: alidns-webhook
-    namespace: cert-manager
+    namespace: ix-traefik
 ---
 # Grant cert-manager permission to validate using our apiserver
 apiVersion: rbac.authorization.k8s.io/v1
@@ -110,7 +110,7 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager
+    namespace: ix-traefik
 
 ---
 # Source: alidns-webhook/templates/service.yaml
@@ -118,7 +118,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: alidns-webhook
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 spec:
@@ -137,7 +137,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: alidns-webhook
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 spec:
@@ -202,7 +202,7 @@ spec:
   versionPriority: 15
   service:
     name: alidns-webhook
-    namespace: cert-manager
+    namespace: ix-traefik
   version: v1alpha1
 
 ---
@@ -212,7 +212,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: alidns-webhook-selfsign
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 spec:
@@ -225,7 +225,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: alidns-webhook-ca
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 spec:
@@ -243,7 +243,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: alidns-webhook-ca
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 spec:
@@ -257,7 +257,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: alidns-webhook-webhook-tls
-  namespace: cert-manager
+  namespace: ix-traefik
   labels:
     app: alidns-webhook
 spec:
